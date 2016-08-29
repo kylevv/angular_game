@@ -14,11 +14,11 @@ var UserSchema = new mongoose.Schema({
     required: true
   },
 
-  salt: String
+  salt: String,
 
-  // score: {
-  //   type: Number
-  // }
+  score: {
+    type: Number
+  }
 });
 
 UserSchema.methods.comparePasswords = function(enteredPassword, callback) {
@@ -41,6 +41,9 @@ UserSchema.pre('save', function (next) {
     }
 
     bcrypt.hash(user.password, salt, null, function(err, hash){
+      if (err) {
+        return next(err);
+      }
       user.password = hash;
       user.salt = salt;
       next();
