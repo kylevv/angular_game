@@ -1,0 +1,14 @@
+<div id='game'>
+  Game goes here
+  <button ng-click="startgame()" ng-hide="!!scoreboard.time">Start Game</button>
+  <div class='score'>
+    Score: <span class='points'>{{ scoreboard.points }}</span>
+  </div>
+  <div class='timer'>
+    Time Remaining: <span class='time'>{{ scoreboard.time }}</span>
+  </div>
+  <div id='arena'>
+    <div id="cart" my-cart></div>
+    <div class='enemy' ng-repeat="enemy in enemies" style="top:{{enemy.top+'px'}}; left:{{enemy.left+'px'}}"></div>
+  </div>
+</div>
