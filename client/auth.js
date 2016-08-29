@@ -3,8 +3,26 @@ angular.module('auth', [])
 
 })
 .factory('Auth', function($http, $location, $window) {
-  var testFn = function(){
-    console.log("HERE!");
-  }
-  return {testFn: testFn};
+  var signin = function (user) {
+
+  };
+
+  var signup = function (user) {
+
+  };
+
+  var hasSession = function () {
+    return !!$window.localStorage.getItem('com.jqss');
+  };
+
+  var signout = function () {
+
+  };
+
+  return {
+    signin: signin,
+    signup: signup,
+    signout: signout,
+    hasSession: hasSession
+  };
 });
