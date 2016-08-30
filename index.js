@@ -15,7 +15,7 @@ var port = process.env.PORT || 1337;
 var app = express();
 
 // start database
-var mongoURI = process.env.MONGOLAB_URI || 'mongodb://localhost/jqss'
+var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/jqss'
 
 mongoose.connect(mongoURI);
 
