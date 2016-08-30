@@ -1,6 +1,6 @@
 // handle signin/signout requests
 
-var Q = require('q');
+// var Q = require('q');
 var jwt = require('jwt-simple');
 var helper = require('./helpers.js');
 var User = require('./userModel.js');

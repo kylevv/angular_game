@@ -23,6 +23,7 @@ angular.module('game', [])
   };
   var enemies = [];
   var duration = 20000; //seconds
+  var gravity = 0.25;
 
   var startgame = function(){
     scoreboard.points = 0;
@@ -30,17 +31,27 @@ angular.module('game', [])
     enemies.length=0;
     $interval(function(){
       // console.log(scoreboard.time);
-      scoreboard.time--;
+      scoreboard.time=scoreboard.time-0.5;
       // if (Math.floor(Math.random()*4)<1) {
       //   scoreboard.points++;
       // }
       enemies.push(new Enemy);
-    },1000,20);
+    },500,40);
+    $interval(function(){
+      enemies.forEach(function(enemy){
+        enemy.fall();
+      });
+    },50,400);
   };
 
   var Enemy = function(){
-    this.left = Math.floor(Math.random()*200);
+    this.left = Math.floor(Math.random()*460)+10;
     this.top = Math.floor(Math.random()*200);
+    this.speed = 0;
+  }
+  Enemy.prototype.fall = function(){
+    this.speed+=gravity;
+    this.top+=this.speed;
   }
 
   return {
@@ -50,46 +61,63 @@ angular.module('game', [])
   };
 })
 
-.directive('myCart', function($document){
+.directive('myCart', function($document, $interval){
 
   function link (scope, element, attr) {
-    var x=150;
-    var y=150;
+    var x=250;
+    var y=500;
+    var leftKey = false;
+    var rightKey = false;
     element.css({left:x+"px",top:y+"px"});
 
     $document.on('keydown', function(event){
-      // event.preventDefault();
       if (event.which===39) {
-        x+=20;
+        rightKey = true;
       }
       if (event.which===37) {
-        x-=20;
+        leftKey = true;
+      };
+    });
+
+    $document.on('keyup', function(event){
+      if (event.which===39) {
+        rightKey = false;
       }
-      if (event.which===38) {
-        y-=20;
+      if (event.which===37) {
+        leftKey = false;
       }
-      if (event.which===40) {
-        y+=20;
+    });
+
+    var cartInterval = $interval(function(){
+      if (leftKey) {
+        x-=2;
       }
+      if (rightKey) {
+        x+=2;
+      }
+
       element.css({left: x+"px", top: y+"px"});
 
       var i=0;
       while (i<scope.enemies.length) {
-        if (scope.enemies[i].left>x+40 || scope.enemies[i].left+20<x || scope.enemies[i].top>y+40 || scope.enemies[i].top+20<y){
+        if (scope.enemies[i].left>x+40 || scope.enemies[i].left+20<x || scope.enemies[i].top>y+40 || scope.enemies[i].top+30<y){
           //do nothing
         } else {
           scope.enemies.splice(i,1);
           scope.scoreboard.points++;
           i--;
-          scope.$apply();
+          // scope.$apply();
         }
         i++;
       }
 
+    }, 10);
+
+    element.on('$destroy', function() {
+      $interval.cancel(cartInterval);
     });
-
-
   };
+
 
   return {link: link};
 });
