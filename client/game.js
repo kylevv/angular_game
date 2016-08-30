@@ -1,4 +1,5 @@
 angular.module('game', [])
+
 .controller('GameController', function($scope, GamePlay, Auth){
 
   // $scope.points = GamePlay.points;
@@ -30,11 +31,7 @@ angular.module('game', [])
     scoreboard.time = 20;
     enemies.length=0;
     $interval(function(){
-      // console.log(scoreboard.time);
       scoreboard.time=scoreboard.time-0.5;
-      // if (Math.floor(Math.random()*4)<1) {
-      //   scoreboard.points++;
-      // }
       enemies.push(new Enemy);
     },500,40);
     $interval(function(){
@@ -106,7 +103,6 @@ angular.module('game', [])
           scope.enemies.splice(i,1);
           scope.scoreboard.points++;
           i--;
-          // scope.$apply();
         }
         i++;
       }

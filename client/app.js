@@ -27,7 +27,7 @@ angular.module('jqss',[
     })
     .state('scores', {
       url: '/scores',
-      templateUrl: '',
+      templateUrl: 'scores.html',
       controller: 'ScoresController',
       authenticate: true
     });
