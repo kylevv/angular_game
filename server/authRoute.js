@@ -7,7 +7,8 @@ var User = require('./userModel.js');
 
 module.exports = {
   signin: function(req, res) {
-    var username = req.body.user;
+    console.log("signin: ", req.body);
+    var username = req.body.username;
     var password = req.body.password;
     // check db for user
     User.findOne({'username':username}, function(err, user){
@@ -17,6 +18,7 @@ module.exports = {
         if(!user) {
           helper.sendError("No user found", req, res);
         } else {
+          console.log("USER: ",user);
           user.comparePassword(password, function(err, match){
             if (!match) {
               helper.sendError("Password invalid", req, res);
@@ -43,13 +45,13 @@ module.exports = {
         if (user) {
           helper.sendError("Username taken", req, res);
         } else {
-          User.insertOne({
+          User.create({
             'username': username,
             'password': password,
             'score': 0
           }, function(err, user){
             if (err) {
-              console.log("mongo insertOne err: ", err);
+              console.log("mongo create err: ", err);
             } else {
               var token = jwt.encode(user, 'shhhh');
               res.json({token: token});

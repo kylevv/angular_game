@@ -1,22 +1,23 @@
 angular.module('auth', [])
-.controller('AuthController', function($scope, $window, $location, Auth){
+
+.controller('AuthController', function($scope, Auth){
   $scope.user = {};
   $scope.signin = function(){
-    Auth.signin($scope.user, Auth.handleResponse, Auth.handlerError);
+    Auth.signin($scope.user, Auth.handleResponse, Auth.handleError);
   };
   $scope.signup = function(){
-    Auth.signup($scope.user, Auth.handleResponse, Auth.handlerError);
+    Auth.signup($scope.user, Auth.handleResponse, Auth.handleError);
   }
-
 })
+
 .factory('Auth', function($http, $location, $window) {
   var signin = function (user, successCB, errCB) {
-    $http.get('/signin')
+    $http.post('/api/signin', user)
       .then(successCB, errCB);
   };
 
-  var signup = function (user) {
-    $http.post('/signup', user)
+  var signup = function (user, successCB, errCB) {
+    $http.post('/api/signup', user)
       .then(successCB, errCB);
   };
 
@@ -25,15 +26,17 @@ angular.module('auth', [])
   };
 
   var signout = function () {
-
+    $window.localStorage.removeItem('com.jqss');
+    $location.path('/signin');
   };
 
-  var handleResponse = function(token) {
-
+  var handleResponse = function(resp) {
+    $window.localStorage.setItem('com.jqss', resp.data.token);
+    $location.path('/game');
   };
 
-  var handlerError = function(err) {
-
+  var handleError = function(err) {
+    console.error("ajax error: ", err);
   };
 
   return {
@@ -42,6 +45,6 @@ angular.module('auth', [])
     signout: signout,
     hasSession: hasSession,
     handleResponse: handleResponse,
-    handlerError: handlerError
+    handleError: handleError
   };
 });

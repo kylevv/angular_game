@@ -17,6 +17,7 @@ Icon
 node_modules/
 db/
 client/lib
+npm-debug.log
 
 # Floobits
 .floo

@@ -7,7 +7,7 @@ module.exports = {
   },
 
   sendError: function(error, req, res) {
-    res.send(500, {error: error});
+    res.status(500).send({error: error});
   }
 
 };

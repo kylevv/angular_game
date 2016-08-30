@@ -1,5 +1,5 @@
 angular.module('game', [])
-.controller('GameController', function($scope, GamePlay){
+.controller('GameController', function($scope, GamePlay, Auth){
 
   // $scope.points = GamePlay.points;
   // $scope.time = GamePlay.time;
@@ -9,6 +9,10 @@ angular.module('game', [])
   $scope.startgame = function(){
     console.log("STARTING");
     GamePlay.startgame();
+  }
+
+  $scope.signout = function(){
+    Auth.signout();
   }
 })
 

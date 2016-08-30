@@ -11,7 +11,7 @@ angular.module('jqss',[
   $stateProvider
     .state('signin', {
       url: '/signin',
-      templateUrl: '',
+      templateUrl: 'signin.html',
       controller: 'AuthController'
     })
     .state('signup', {
@@ -22,19 +22,21 @@ angular.module('jqss',[
     .state('game', {
       url: '/game',
       templateUrl: 'game.html',
-      controller: 'GameController'
+      controller: 'GameController',
+      authenticate: true
     })
     .state('scores', {
       url: '/scores',
       templateUrl: '',
-      controller: 'ScoresController'
+      controller: 'ScoresController',
+      authenticate: true
     });
 
     $httpProvider.interceptors.push('AttachTokens');
 })
 
 .factory('AttachTokens', function($window) {
-  var attach {
+  var attach = {
     request: function(object) {
       var jwt = $window.localStorage.getItem('com.jqss');
       if (jwt) {
@@ -48,8 +50,8 @@ angular.module('jqss',[
 })
 
 .run(function($rootScope, $location, Auth){
-  $rootScope.$on('$routeChangeStart', function(event, next, current) {
-    if (next.$$route && next.$$route.authenticate && !Auth.hasSession()) {
+  $rootScope.$on('$stateChangeStart', function(event, next, current) {
+    if (next && next.authenticate && !Auth.hasSession()) {
       $location.path('/signin');
     }
   })
