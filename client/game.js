@@ -1,6 +1,6 @@
 angular.module('game', [])
 
-.controller('GameController', function($scope, GamePlay, Auth){
+.controller('GameController', function($scope, $timeout, $rootScope, GamePlay, Auth){
 
   // $scope.points = GamePlay.points;
   // $scope.time = GamePlay.time;
@@ -10,6 +10,18 @@ angular.module('game', [])
   $scope.startgame = function(){
     console.log("STARTING");
     GamePlay.startgame();
+    $timeout(function(){
+      $scope.updateScore();
+    }, 20000);
+  }
+
+  $scope.updateScore = function(){
+    GamePlay.updateScore({
+      points: $scope.scoreboard.points,
+      username: $rootScope.username
+    }, function(resp){
+      console.log(resp.data);
+    }, Auth.handlerError);
   }
 
   $scope.signout = function(){
@@ -17,13 +29,12 @@ angular.module('game', [])
   }
 })
 
-.factory('GamePlay', function($interval) {
+.factory('GamePlay', function($interval, $http) {
   var scoreboard = {
     points: 0,
     time: 0
   };
   var enemies = [];
-  var duration = 20000; //seconds
   var gravity = 0.25;
 
   var startgame = function(){
@@ -50,11 +61,16 @@ angular.module('game', [])
     this.speed+=gravity;
     this.top+=this.speed;
   }
+  var updateScore = function(data, successCB, errCB){
+    $http.post('/api/scores', data)
+      .then(successCB, errCB);
+  }
 
   return {
     startgame: startgame,
     scoreboard: scoreboard,
-    enemies: enemies
+    enemies: enemies,
+    updateScore: updateScore
   };
 })
 

@@ -10,7 +10,7 @@ angular.module('auth', [])
   }
 })
 
-.factory('Auth', function($http, $location, $window) {
+.factory('Auth', function($http, $location, $window, $rootScope) {
   var signin = function (user, successCB, errCB) {
     $http.post('/api/signin', user)
       .then(successCB, errCB);
@@ -32,6 +32,7 @@ angular.module('auth', [])
 
   var handleResponse = function(resp) {
     $window.localStorage.setItem('com.jqss', resp.data.token);
+    $rootScope.username = resp.data.username;
     $location.path('/game');
   };
 

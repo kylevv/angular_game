@@ -22,7 +22,10 @@ module.exports = {
               helper.sendError("Password invalid", req, res);
             } else {
               var token = jwt.encode(user, 'shhhh');
-              res.json({token: token});
+              res.json({
+                token: token,
+                username: username
+              });
             }
           })
         }
@@ -50,7 +53,10 @@ module.exports = {
               console.log("mongo create err: ", err);
             } else {
               var token = jwt.encode(user, 'shhhh');
-              res.json({token: token});
+              res.json({
+                token: token,
+                username: user.username
+              });
             }
           });
         };

@@ -24,6 +24,31 @@ module.exports = {
       // .fail(function(err){console.log("ERR: ", err)})
   },
 
-  updateScore: function(req, res) {}
+  updateScore: function(req, res) {
+    var newScore = req.body.points;
+    var username = req.body.username;
+
+    User.findOne({'username':username}, function(err, user){
+      if (err) {
+        console.log("mongo findOne updateScore err: ", err);
+      } else {
+        if (!user) {
+          helper.sendError("Username not found", req, res);
+        } else {
+          if (newScore > user.score) {
+            User.update({'username':username},{'score':newScore}, function(err, result){
+              if (err) {
+                console.log("mongo update updateScore err: ", err);
+              } else {
+                res.json(result);
+              }
+            });
+          } else {
+            res.json({score: user.score});
+          }
+        }
+      }
+    })
+  }
 
 };

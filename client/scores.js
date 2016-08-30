@@ -7,7 +7,7 @@ angular.module('scores', [])
   $scope.getScores = function(){
     ScoreKeeper.getScores(function(resp){
       $scope.records = resp.data;
-    }, ScoreKeeper.handleErr);
+    }, Auth.handleError);
   }
   $scope.getScores();;
 
@@ -22,13 +22,12 @@ angular.module('scores', [])
       .then(successCB, errCB);
   };
 
-  var handleErr = function(err){
-    console.error("ajax error: ", err);
-  };
+  // var handleErr = function(err){
+  //   console.error("ajax error: ", err);
+  // };
 
   return {
-    getScores: getScores,
-    handleErr: handleErr
+    getScores: getScores
   };
 });
 
