@@ -33,6 +33,7 @@ angular.module('auth', [])
   var handleResponse = function(resp) {
     $window.localStorage.setItem('com.jqss', resp.data.token);
     $rootScope.username = resp.data.username;
+    $rootScope.bestScore = resp.data.score;
     $location.path('/game');
   };
 

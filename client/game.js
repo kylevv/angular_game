@@ -4,9 +4,9 @@ angular.module('game', [])
 
   $scope.scoreboard = GamePlay.scoreboard;
   $scope.enemies = GamePlay.enemies;
+  // $scope.bestScore = $rootScope.bestScore;
 
   $scope.startgame = function(){
-    console.log("STARTING");
     GamePlay.startgame();
     $timeout(function(){
       $scope.updateScore();
@@ -14,11 +14,14 @@ angular.module('game', [])
   }
 
   $scope.updateScore = function(){
+    if ($scope.scoreboard.points>$rootScope.bestScore) {
+      $rootScope.bestScore = $scope.scoreboard.points;
+    };
     GamePlay.updateScore({
       points: $scope.scoreboard.points,
       username: $rootScope.username
     }, function(resp){
-      console.log(resp.data);
+      console.log("Score Updated");
     }, Auth.handlerError);
   }
 

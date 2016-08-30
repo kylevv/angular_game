@@ -24,7 +24,8 @@ module.exports = {
               var token = jwt.encode(user, 'shhhh');
               res.json({
                 token: token,
-                username: username
+                username: username,
+                score: user.score
               });
             }
           })
@@ -55,7 +56,8 @@ module.exports = {
               var token = jwt.encode(user, 'shhhh');
               res.json({
                 token: token,
-                username: user.username
+                username: user.username,
+                score: user.score
               });
             }
           });

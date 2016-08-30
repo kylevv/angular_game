@@ -1,16 +1,27 @@
 <div id='scores'>
-  <a href="" ng-click="signout()">Logout</a><br>
-  <a href="#/game">Play Game</a>
+  <nav>
+    <ul>
+      <li>
+        <a href="#/game">Play Game</a>
+      </li>
+      <li selected>
+        <a href="">High Scores</a>
+      </li>
+      <li>
+        <a href="" ng-click="signout()">Logout</a>
+      </li>
+    </ul>
+  </nav>
   <h3>High Scores:</h3>
-  <table>
+  <table id="highScores">
     <tr>
       <th>Rank</th>
       <th>Name</th>
       <th>Score</th>
     </tr>
     <tr ng-repeat="record in records">
-      <td>#{{record.rank}}</td>
-      <td>{{record.username}}:</td>
+      <td class='hs'>#{{record.rank}}</td>
+      <td>{{record.username}}</td>
       <td>{{record.score}}</td>
     </tr>
   <table>
