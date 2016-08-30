@@ -30,28 +30,7 @@ angular.module('jqss',[
       controller: 'ScoresController'
     });
 
-  // $routeProvider
-  //   .when('/signin', {
-  //     templateUrl: '',
-  //     controller: 'AuthController'
-  //   })
-  //   .when('/signup', {
-  //     templateUrl: 'signup.html',
-  //     controller: 'AuthController'
-  //   })
-  //   .when('/game', {
-  //     templateUrl: '',
-  //     controller: 'GameController'
-  //   })
-  //   .when('/scores', {
-  //     templateUrl: '',
-  //     controller: 'ScoresController'
-  //   })
-  //   .otherwise({
-  //     redirectTo: '/signup'
-  //   });
-
-    // $httpProvider.interceptors.push('AttachTokens');
+    $httpProvider.interceptors.push('AttachTokens');
 })
 
 .factory('AttachTokens', function($window) {
