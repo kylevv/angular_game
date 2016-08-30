@@ -7,7 +7,6 @@ var User = require('./userModel.js');
 
 module.exports = {
   signin: function(req, res) {
-    console.log("signin: ", req.body);
     var username = req.body.username;
     var password = req.body.password;
     // check db for user
@@ -18,14 +17,11 @@ module.exports = {
         if(!user) {
           helper.sendError("No user found", req, res);
         } else {
-          console.log("USER: ",user);
-          user.comparePassword(password, function(err, match){
+          user.comparePasswords(password, function(err, match){
             if (!match) {
               helper.sendError("Password invalid", req, res);
             } else {
-              //add jwt
               var token = jwt.encode(user, 'shhhh');
-              //send to games
               res.json({token: token});
             }
           })
