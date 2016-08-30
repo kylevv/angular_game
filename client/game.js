@@ -2,8 +2,6 @@ angular.module('game', [])
 
 .controller('GameController', function($scope, $timeout, $rootScope, GamePlay, Auth){
 
-  // $scope.points = GamePlay.points;
-  // $scope.time = GamePlay.time;
   $scope.scoreboard = GamePlay.scoreboard;
   $scope.enemies = GamePlay.enemies;
 

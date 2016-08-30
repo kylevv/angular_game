@@ -2,7 +2,16 @@
   <a href="" ng-click="signout()">Logout</a><br>
   <a href="#/game">Play Game</a>
   <h3>High Scores:</h3>
-  <div ng-repeat="record in records">
-    {{record.username}} {{record.score}}
-  </div>
+  <table>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>Score</th>
+    </tr>
+    <tr ng-repeat="record in records">
+      <td>#{{record.rank}}</td>
+      <td>{{record.username}}:</td>
+      <td>{{record.score}}</td>
+    </tr>
+  <table>
 </div>

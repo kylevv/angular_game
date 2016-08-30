@@ -6,7 +6,10 @@ angular.module('scores', [])
 
   $scope.getScores = function(){
     ScoreKeeper.getScores(function(resp){
-      $scope.records = resp.data;
+      $scope.records = resp.data.map(function(record, index){
+        record.rank = index+1;
+        return record;
+      });
     }, Auth.handleError);
   }
   $scope.getScores();;
@@ -21,10 +24,6 @@ angular.module('scores', [])
     $http.get('/api/scores')
       .then(successCB, errCB);
   };
-
-  // var handleErr = function(err){
-  //   console.error("ajax error: ", err);
-  // };
 
   return {
     getScores: getScores
