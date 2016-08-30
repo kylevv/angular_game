@@ -6,71 +6,74 @@ module.exports = function(grunt) {
       //all files to concat
       //make one file
       //just client or not?
+      options: {
+        separator: ';'
+      },
       dist: {
-        src: [
-          'public/client/*.js'
-          ],
-        dest: 'public/dist/concatted.js',
+        src: ['client/*.js'],
+        dest: 'dist/jqss.js',
         }
     },
 
-    mochaTest: {
-      test: {
-        options: {
-          reporter: 'spec'
-        },
-        src: ['test/**/*.js']
-      }
-    },
+    // mochaTest: {
+    //   test: {
+    //     options: {
+    //       reporter: 'spec'
+    //     },
+    //     src: ['test/**/*.js']
+    //   }
+    // },
 
     nodemon: {
       dev: {
-        script: 'server.js'
+        script: 'index.js'
       }
     },
 
     uglify: {
-      //make ugly the concatted mess
-      //said foo to be clever, may need to be changed
+
+      options: {
+        banner: '/*! jqss <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+      },
       dist: {
-        src: 'public/dist/concatted.js',
-        dest: 'public/dist/concatted.min.js'
+        src: 'dist/jqss.js',
+        dest: 'dist/jqss.min.js'
       }
     },
 
-    jshint: {
-      files: [
-        // Add filespec list here
-        //don't check ugly mess, check files first
-        'app/collections/*.js',
-        'app/models/*.js',
-        'app/config.js',
-        'public/client/*.js'
-      ],
-      options: {
-        force: 'true',
-        jshintrc: '.jshintrc',
-        ignores: [
-          'public/lib/**/*.js',
-          'public/dist/**/*.js'
-        ],
-        reporterOutput: ""
-      }
-    },
+    // jshint: {
+    //   files: [
+    //     // Add filespec list here
+    //     //don't check ugly mess, check files first
+    //     'app/collections/*.js',
+    //     'app/models/*.js',
+    //     'app/config.js',
+    //     'public/client/*.js'
+    //   ],
+    //   options: {
+    //     force: 'true',
+    //     jshintrc: '.jshintrc',
+    //     ignores: [
+    //       'public/lib/**/*.js',
+    //       'public/dist/**/*.js'
+    //     ],
+    //     reporterOutput: ""
+    //   }
+    // },
 
     cssmin: {
       //minimize css
-        minify: {
-          src: 'public/style.css',
-          dest: 'public/dist/style.min.css'
+        dist: {
+          src: 'client/style.css',
+          dest: 'dist/style.min.css'
         }
     },
 
     watch: {
       scripts: {
         files: [
-          'public/client/**/*.js',
-          'public/lib/**/*.js',
+          'client/*.js'
+          // 'public/lib/**/*.js',
         ],
         tasks: [
           'concat',
@@ -78,13 +81,19 @@ module.exports = function(grunt) {
         ]
       },
       css: {
-        files: 'public/*.css',
+        files: 'client/*.css',
         tasks: ['cssmin']
       }
     },
 
     shell: {
       prodServer: {
+        command: 'git push heroku master',
+        options: {
+          stdout: true,
+          stderr: true,
+          failOnError: true
+        }
       }
     },
   });
@@ -116,8 +125,8 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   grunt.registerTask('test', [
-    'jshint',
-    'mochaTest'
+    // 'jshint',
+    // 'mochaTest'
   ]);
 
   grunt.registerTask('build', [
@@ -128,17 +137,16 @@ module.exports = function(grunt) {
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
-      // add your production server task here
-      console.log("anything");
+      grunt.task.run([ 'shell:prodServer' ]);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
   grunt.registerTask('deploy', [
-    // add your deploy tasks here
-    'test',
-    'build'
+    // 'test',
+    'build',
+    'upload --prod'
   ]);
 
 
