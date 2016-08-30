@@ -1,8 +1,8 @@
 angular.module('jqss',[
   'auth',
   'ui.router',
-  'game'
-  // 'scores'
+  'game',
+  'scores'
 ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 

@@ -16,7 +16,7 @@ angular.module('scores', [])
   }
 })
 
-.factory('ScoreKeeper', function(){
+.factory('ScoreKeeper', function($http){
   var getScores = function(successCB, errCB){
     $http.get('/api/scores')
       .then(successCB, errCB);
@@ -28,7 +28,6 @@ angular.module('scores', [])
 
   return {
     getScores: getScores,
-    handleData: handleData,
     handleErr: handleErr
   };
 });
