@@ -11,6 +11,7 @@ angular.module('auth', [])
 })
 
 .factory('Auth', function($http, $location, $window, $rootScope) {
+
   var signin = function (user, successCB, errCB) {
     $http.post('/api/signin', user)
       .then(successCB, errCB);

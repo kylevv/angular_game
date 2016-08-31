@@ -35,7 +35,7 @@ angular.module('jqss',[
     $httpProvider.interceptors.push('AttachTokens');
 })
 
-.factory('AttachTokens', function($window) {
+.factory('AttachTokens', function($window, $rootScope, $location) {
   var attach = {
     request: function(object) {
       var jwt = $window.localStorage.getItem('com.jqss');
@@ -46,6 +46,7 @@ angular.module('jqss',[
       return object;
     }
   }
+
   return attach;
 })
 

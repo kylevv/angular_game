@@ -4,12 +4,12 @@ angular.module('game', [])
 
   $scope.scoreboard = GamePlay.scoreboard;
   $scope.enemies = GamePlay.enemies;
-  // $scope.bestScore = $rootScope.bestScore;
 
   $scope.startgame = function(){
     GamePlay.startgame();
     $timeout(function(){
       $scope.updateScore();
+      $scope.enemies.length=0;
     }, 20000);
   }
 
